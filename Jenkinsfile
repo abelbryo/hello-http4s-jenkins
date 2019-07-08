@@ -7,11 +7,15 @@ node {
         checkout scm
     }
 
+    stage('sbt docker:stage') {
+        sh "sbt docker:stage"
+    }
+
     stage('Build image') {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        app = docker.build("aterefe/ordering-system")
+        app = docker.build("aterefe/ordering-system", "./target/docker/stage/")
     }
 
     stage('Test image') {
