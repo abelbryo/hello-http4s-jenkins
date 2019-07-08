@@ -35,6 +35,8 @@ node {
             branchName  = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim().replaceAll("/", "_")
 
             app.push("${branchName}-${shortCommit}")
+
+            sh "sbt docker:clean"
         }
     }
 }
