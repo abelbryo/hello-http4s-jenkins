@@ -35,7 +35,7 @@ node {
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
 
             shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
-            branchName  = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+            branchName  = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim().replaceAll("/", "_")
 
             app.push("${branchName}-${shortCommit}")
         }
