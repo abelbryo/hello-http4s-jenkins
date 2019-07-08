@@ -28,6 +28,9 @@ object HttpsjenkinsRoutes {
           greeting <- H.hello(HelloWorld.Name(name))
           resp <- Ok(greeting)
         } yield resp
+
+      case GET -> Root / "goodbye" => Ok("Good bye! :(")
     }
   }
+
 }
