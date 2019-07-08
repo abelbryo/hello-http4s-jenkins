@@ -33,7 +33,7 @@ node {
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-            app.push("${env.BUILD_NUMBER}")
+            app.push("${env.GIT_BRANCH}-${env.GIT_COMMIT}")
             sh "docker rmi aterefe/ordering-system:latest "
         }
     }
