@@ -1,0 +1,48 @@
+pipeline {
+
+  environment {
+    // registry = 'aterefe/ordering-system'
+    // registryCredential = 'dockerhub'
+    registryCredential = 'trademarknow-jfrog'
+    registryUrl = 'https://trademarknow-tmnow-docker-local.jfrog.io'
+  }
+
+  agent any
+
+  stages {
+    stage('Cloning Git') {
+      steps {
+        git 'https://github.com/abelbryo/hello-akka-http'
+      }
+    }
+
+    stage('Test'){
+      steps {
+        echo '[ SBT TEST ]'
+          sh 'sbt test'
+      }
+    }
+
+    stage('Docker stage') {
+      steps {
+        script {
+          sh "sbt docker:stage"
+        }
+      }
+    }
+
+    stage('Docker build & push') {
+      steps {
+        script {
+          docker.withRegistry(registryUrl, registryCredential) {
+            def customImage = docker.build("abel/hello-cicd:${env.BUILD_ID}", "./target/docker/stage/")
+            customImage.push()
+
+          }
+        }
+      }
+    }
+  }
+
+}
+
