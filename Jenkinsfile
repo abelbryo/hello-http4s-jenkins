@@ -48,7 +48,7 @@ node {
     stage('Clean up space') {
         /* Clean up <none> images.
            Clean up images that've been pushed.*/
-        sh """docker images -f "dangling=true" -q | xargs docker rmi"""
+        sh """docker images -f "dangling=true" -q | xargs -r docker rmi"""
         sh "docker rmi ${image}"
     }
 }
