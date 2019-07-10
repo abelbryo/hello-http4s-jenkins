@@ -27,7 +27,7 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        app = docker.build(registryKey, "./target/docker/stage/")
+        app = docker.build("${registryKey}", "./target/docker/stage/")
     }
 
     stage('Test image') {
