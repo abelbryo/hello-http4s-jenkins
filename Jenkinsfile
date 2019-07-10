@@ -35,10 +35,8 @@ node {
             app.push("${branchName}-${shortCommit}")
         }
 
-        app.inside {
-            /* Clean up <none> images. */
-            sh """docker images -f "dangling=true" -q | xargs docker rmi"""
-        }
+        /* Clean up <none> images. */
+        sh """docker images -f "dangling=true" -q | xargs docker rmi"""
     }
 }
 
