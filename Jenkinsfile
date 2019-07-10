@@ -36,5 +36,8 @@ node {
 
             app.push("${branchName}-${shortCommit}")
         }
+
+        docker images -f "dangling=true" -q | xargs docker rmi
     }
 }
+
