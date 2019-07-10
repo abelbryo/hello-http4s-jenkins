@@ -2,8 +2,8 @@ node {
     def app
 
     environment {
-        registryUrl = "registry.hub.docker.com"
-        registryKey = "aterefe/ordering-system"
+        def registryUrl = "registry.hub.docker.com"
+        def registryKey = "aterefe/ordering-system"
 
         shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
         branchName  = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim().replaceAll("/", "_")
