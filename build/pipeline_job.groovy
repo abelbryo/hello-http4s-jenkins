@@ -10,7 +10,7 @@ pipelineJob('http4s-jenkins') {
           node -> node / extensions()
         }
       }
-      scriptPath('hello-http4s-jenkins/Jenkinsfile')
+      scriptPath('Jenkinsfile')
     }
   }
 }
