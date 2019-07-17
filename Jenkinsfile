@@ -5,17 +5,17 @@ pipeline {
     environment {
         DOCKER_HOST = 'tcp://localhost:2375'
 
-        registryUrl = "registry.hub.docker.com"
-        registryKey = "aterefe/ordering-system"
+            registryUrl = "registry.hub.docker.com"
+            registryKey = "aterefe/ordering-system"
 
-        shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
-        branchName  = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim().replaceAll("/", "_")
+            shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+            branchName  = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim().replaceAll("/", "_")
 
-        imageRepo = "${registryUrl}/${registryKey}"
-        imageTag = "${branchName}-${shortCommit}"
-        image = "${imageRepo}:${imageTag}"
+            imageRepo = "${registryUrl}/${registryKey}"
+            imageTag = "${branchName}-${shortCommit}"
+            image = "${imageRepo}:${imageTag}"
 
-        imageUploadUrl = "https://${registryUrl}/${registryKey}"
+            imageUploadUrl = "https://${registryUrl}/${registryKey}"
 
     }
 
@@ -50,7 +50,9 @@ pipeline {
             steps {
                 withDockerServer(uri: env.DOCKER_HOST, credentialsId: "") {
                     withDockerRegistery(credentialId: '', url: env.imageUploadUrl) {
-                        app = docker.build("${env.registryKey}", "./target/docker/stage/")
+                        script {
+                            app = docker.build("${env.registryKey}", "./target/docker/stage/")
+                        }
                     }
                 }
             }
@@ -60,8 +62,11 @@ pipeline {
         stage('Push image') {
             steps {
                 /* Finally, we'll push the image */
-                docker.withRegistry("https://${env.registryUrl}", "docker-hub-credentials") {
-                    app.push("${env.imageTag}")
+
+                script {
+                    docker.withRegistry("https://${env.registryUrl}", "docker-hub-credentials") {
+                        app.push("${env.imageTag}")
+                    }
                 }
             }
         }
