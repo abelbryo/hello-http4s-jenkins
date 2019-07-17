@@ -49,10 +49,8 @@ pipeline {
 
             steps {
                 withDockerServer(uri: env.DOCKER_HOST, credentialsId: "") {
-                    withDockerRegistery(credentialId: '', url: env.imageUploadUrl) {
-                        script {
-                            app = docker.build("${env.registryKey}", "./target/docker/stage/")
-                        }
+                    script {
+                        app = docker.build("${env.registryKey}", "./target/docker/stage/")
                     }
                 }
             }
