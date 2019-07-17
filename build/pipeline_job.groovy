@@ -7,7 +7,11 @@ pipelineJob('http4s-jenkins') {
     cpsScm {
       scm {
         git('git@github.com:abelbryo/hello-http4s-jenkins.git') {
-          node -> node / extensions()
+          node -> node / extensions {
+            choosingStrategy {
+                alternative()
+              }
+            }
         }
       }
       scriptPath('Jenkinsfile')
