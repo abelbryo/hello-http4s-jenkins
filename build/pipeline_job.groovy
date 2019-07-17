@@ -11,10 +11,10 @@ pipelineJob('http4s-jenkins') {
         git {
           remote {
             name('origin')
-              url('git@github.com:abelbryo/hello-http4s-jenkins.git')
+            url('git@github.com:abelbryo/hello-http4s-jenkins.git')
           }
 
-          branches("*")
+          branches("master", "abel/feature/new-endpoints")
 
             extensions {
               choosingStrategy {
