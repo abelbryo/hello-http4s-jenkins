@@ -8,19 +8,8 @@ pipelineJob('http4s-jenkins') {
     cpsScm {
       scm {
 
-        git {
-          remote {
-            name('origin')
-            url('git@github.com:abelbryo/hello-http4s-jenkins.git')
-          }
-
-          branches("master", "abel/feature/new-endpoints")
-
-            extensions {
-              choosingStrategy {
-                alternative()
-              }
-            }
+        git('git@github.com:abelbryo/hello-http4s-jenkins.git') {
+          node -> node / extensions()
         }
       }
 
