@@ -3,7 +3,6 @@ pipeline {
     agent { label 'k8s-dind-worker' }
 
     environment {
-        DOCKER_HOST = 'tcp://localhost:2375'
 
             registryUrl = "registry.hub.docker.com"
             registryKey = "aterefe/ordering-system"
@@ -48,10 +47,8 @@ pipeline {
              * docker build on the command line */
 
             steps {
-                withDockerServer(uri: env.DOCKER_HOST, credentialsId: "") {
-                    script {
-                        app = docker.build("${env.registryKey}", "./target/docker/stage/")
-                    }
+                script {
+                    app = docker.build("${env.registryKey}", "./target/docker/stage/")
                 }
             }
         }
