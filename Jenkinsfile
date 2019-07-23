@@ -5,14 +5,14 @@ pipeline {
   environment {
 
     registryUrl = "registry.hub.docker.com"
-    registryKey = "aterefe/ordering-system"
+      registryKey = "aterefe/ordering-system"
 
-    shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
-    branchName  = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim().replaceAll("/", "_")
+      shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+      branchName  = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim().replaceAll("/", "_")
 
-    imageRepo = "${registryUrl}/${registryKey}"
-    imageTag = "${branchName}-${shortCommit}"
-    image = "${imageRepo}:${imageTag}"
+      imageRepo = "${registryUrl}/${registryKey}"
+      imageTag = "${branchName}-${shortCommit}"
+      image = "${imageRepo}:${imageTag}"
   }
 
   stages {
@@ -32,6 +32,17 @@ pipeline {
       }
     }
 
+    stage('kubectl get pods') {
+      steps {
+        withKubeConfig([
+            credentialsId: 'minikube-crt',
+            serverUrl: 'https://192.168.99.100:8443',
+            namespace: 'jenkins'
+        ]) {
+          sh 'kubectl get pods'
+        }
+      }
+    }
 
     stage('sbt docker:stage') {
       steps {
