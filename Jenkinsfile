@@ -39,7 +39,7 @@ pipeline {
             serverUrl: 'https://192.168.99.100:8443',
             namespace: 'jenkins'
         ]) {
-          sh '~/kubectl cluster-info'
+          sh 'kubectl cluster-info'
         }
       }
     }
