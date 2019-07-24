@@ -1,6 +1,6 @@
 #!/bin/sh
 
-REPO='aterefe/ordering-system'
+REPO='aterefe/http4s'
 IMAGE=$1
 if [ -z "$IMAGE" ]; then
   IMAGE="$REPO:latest"
