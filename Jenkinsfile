@@ -58,7 +58,7 @@ pipeline {
             namespace: 'http4s'
         ]) {
           sh "chmod +x run.sh"
-          sh "./run.sh"
+          sh "./run.sh ${image}"
         }
       }
     }
