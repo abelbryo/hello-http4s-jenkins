@@ -81,6 +81,7 @@ pipeline {
         ]) {
           sh "chmod +x run.sh"
           sh "./run.sh ${registryKey}:${imageTag}"
+          sh "cat k8s/deployment.yml"
         }
       }
     }
