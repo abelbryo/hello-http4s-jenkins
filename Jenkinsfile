@@ -16,6 +16,7 @@ pipeline {
   }
 
   stages {
+
     stage('Clone repository') {
       steps {
         checkout([
@@ -62,28 +63,28 @@ pipeline {
       }
     }
 
-   /*
-    stage('Push image') {
-      steps {
-        /* Finally, we'll push the image */
 
-        script {
-          docker.withRegistry("https://${env.registryUrl}", "docker-hub-credentials") {
-            app.push("${env.imageTag}")
-          }
-        }
-      }
-    } */
-
-    /*
-    stage('Clean up space') {
-      /* Clean up <none> images.
-         Clean up images that've been pushed.*/
-      steps {
-        sh """docker images -f "dangling=true" -q | xargs -r docker rmi"""
-          sh "docker rmi ${env.image}"
-      }
-    } */
+    /* stage('Push image') { */
+    /*   steps { */
+    /*     /* Finally, we'll push the image */ */
+    /*  */
+    /*     script { */
+    /*       docker.withRegistry("https://${env.registryUrl}", "docker-hub-credentials") { */
+    /*         app.push("${env.imageTag}") */
+    /*       } */
+    /*     } */
+    /*   } */
+    /* }  */
+    /*  */
+    /*  */
+    /* stage('Clean up space') { */
+    /*   /* Clean up <none> images. */
+    /*      Clean up images that've been pushed.*/ */
+    /*   steps { */
+    /*     sh """docker images -f "dangling=true" -q | xargs -r docker rmi""" */
+    /*       sh "docker rmi ${env.image}" */
+    /*   } */
+    /* } */
 
 
   }
