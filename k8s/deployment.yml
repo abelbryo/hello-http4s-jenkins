@@ -12,7 +12,9 @@ spec:
     spec:
       containers:
       - name: http4s
-        image: aterefe/ordering-system:HEAD-2ba0700
+        image: aterefe/ordering-system:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9000
+      imagePullSecrets:
+      - name: regcred

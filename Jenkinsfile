@@ -32,18 +32,6 @@ pipeline {
       }
     }
 
-    stage('kubectl get pods') {
-      steps {
-        withKubeConfig([
-            credentialsId: 'minikube-crt',
-            serverUrl: 'https://192.168.99.100:8443',
-            namespace: 'jenkins'
-        ]) {
-          sh 'kubectl get pods -n jenkins'
-        }
-      }
-    }
-
     stage('sbt docker:stage') {
       steps {
         sh "sbt docker:stage"
@@ -61,7 +49,19 @@ pipeline {
       }
     }
 
+    stage('Deploy') {
+      steps {
+        withKubeConfig([
+            credentialsId: 'minikube-crt',
+            serverUrl: 'https://192.168.99.100:8443',
+            namespace: 'http4s'
+        ]) {
+          sh 'kubectl apply -f deployment.yml'
+        }
+      }
+    }
 
+   /*
     stage('Push image') {
       steps {
         /* Finally, we'll push the image */
@@ -72,8 +72,9 @@ pipeline {
           }
         }
       }
-    }
+    } */
 
+    /*
     stage('Clean up space') {
       /* Clean up <none> images.
          Clean up images that've been pushed.*/
@@ -81,6 +82,8 @@ pipeline {
         sh """docker images -f "dangling=true" -q | xargs -r docker rmi"""
           sh "docker rmi ${env.image}"
       }
-    }
+    } */
+
+
   }
 }
