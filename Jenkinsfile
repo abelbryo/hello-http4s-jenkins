@@ -56,7 +56,8 @@ pipeline {
             serverUrl: 'https://192.168.99.100:8443',
             namespace: 'http4s'
         ]) {
-          sh 'kubectl apply -f deployment.yml'
+          sh "echo pwd"
+          sh 'kubectl apply -f ./k9s/deployment.yml'
         }
       }
     }
