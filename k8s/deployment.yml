@@ -13,7 +13,7 @@ spec:
       containers:
       - name: http4s
         image: aterefe/ordering-system:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 9000
       imagePullSecrets:
