@@ -85,15 +85,5 @@ pipeline {
       }
     }
 
-    stage('Deploy with docker') {
-     agent {
-       docker { image 'quay.io/kontena/mortar:latest' }
-     }
-
-      steps {
-
-          sh 'mortar list'
-      }
-    }
   }
 }
