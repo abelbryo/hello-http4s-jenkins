@@ -90,10 +90,8 @@ pipeline {
       steps {
 
         script {
-          docker.image('quay.io/kontena/mortar').withRun('--entrypoint=/usr/local/bundle/bin/mortar') {
-            docker.image('quay.io/kontena/mortar:latest').inside {
-              sh "mortar --help"
-            }
+          docker.image('quay.io/kontena/mortar').withRun('--entrypoint=/usr/local/bundle/bin/mortar').inside {
+            sh "mortar --help"
           }
         }
       }
