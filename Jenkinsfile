@@ -95,14 +95,18 @@ pipeline {
         }
 
       steps {
-        script {
+           withKubeConfig([
+               credentialsId: 'minikube-crt',
+               serverUrl: 'https://192.168.99.100:8443',
+               namespace: 'http4s'
+           ]) {
 
-          sh "mortar --help"
+             sh "mortar fire k8s/bb-deployment.yml bb"
+           }
+         }
 
-        //  docker.image('quay.io/kontena/mortar:latest').withRun('-it --entrypoint=/bin/sh') {
-        //    sh "whoami"
-        //  }
-        }
+
+
       }
     }
 
