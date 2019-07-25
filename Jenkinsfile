@@ -39,59 +39,61 @@ pipeline {
       }
     }
 
-    stage('Build image') {
-      /* This builds the actual image; synonymous to
-       * docker build on the command line */
+    // stage('Build image') {
+    //   /* This builds the actual image; synonymous to
+    //    * docker build on the command line */
 
-      steps {
-        script {
-          app = docker.build("${env.registryKey}", "./target/docker/stage/")
-        }
-      }
-    }
+    //   steps {
+    //     script {
+    //       app = docker.build("${env.registryKey}", "./target/docker/stage/")
+    //     }
+    //   }
+    // }
 
-    stage('Push image') {
-      steps {
-        /* Finally, we'll push the image */
+    // stage('Push image') {
+    //   steps {
+    //     /* Finally, we'll push the image */
 
-        script {
-          docker.withRegistry("https://${env.registryUrl}", "docker-hub-credentials") {
-            app.push("${env.imageTag}")
-          }
-        }
-      }
-    }
+    //     script {
+    //       docker.withRegistry("https://${env.registryUrl}", "docker-hub-credentials") {
+    //         app.push("${env.imageTag}")
+    //       }
+    //     }
+    //   }
+    // }
 
-    stage('Clean up space') {
-      /* Clean up <none> images.
-         Clean up images that've been pushed.*/
-      steps {
-        sh """docker images -f "dangling=true" -q | xargs -r docker rmi"""
-          sh "docker rmi ${env.image}"
-      }
-    }
+    // stage('Clean up space') {
+    //   /* Clean up <none> images.
+    //      Clean up images that've been pushed.*/
+    //   steps {
+    //     sh """docker images -f "dangling=true" -q | xargs -r docker rmi"""
+    //       sh "docker rmi ${env.image}"
+    //   }
+    // }
 
 
-    stage('Deploy') {
-      steps {
-        withKubeConfig([
-            credentialsId: 'minikube-crt',
-            serverUrl: 'https://192.168.99.100:8443',
-            namespace: 'http4s'
-        ]) {
-          sh "chmod +x run.sh"
-            sh "./run.sh ${registryKey}:${imageTag}"
-        }
-      }
-    }
+    // stage('Deploy') {
+    //   steps {
+    //     withKubeConfig([
+    //         credentialsId: 'minikube-crt',
+    //         serverUrl: 'https://192.168.99.100:8443',
+    //         namespace: 'http4s'
+    //     ]) {
+    //       sh "chmod +x run.sh"
+    //         sh "./run.sh ${registryKey}:${imageTag}"
+    //     }
+    //   }
+    // }
 
     stage('Mortar fire') {
 
       steps {
 
         script {
-          docker.image('quay.io/kontena/mortar:latest').withRun('--entrypoint=/usr/local/bundle/bin/mortar') {
-            sh "mortar --help"
+          docker.image('quay.io/kontena/mortar').withRun('--entrypoint=/usr/local/bundle/bin/mortar') {
+            docker.image('quay.io/kontena/mortar:latest').inside {
+              sh "mortar --help"
+            }
           }
         }
       }
