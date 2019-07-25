@@ -87,29 +87,23 @@ pipeline {
 
     stage('Mortar fire') {
 
-        agent {
-          docker {
-            image 'quay.io/kontena/mortar:latest'
+      agent {
+        docker {
+          image 'quay.io/kontena/mortar:latest'
             args '--entrypoint=\'\''
-          }
         }
+      }
 
       steps {
-           withKubeConfig([
-               credentialsId: 'minikube-crt',
-               serverUrl: 'https://192.168.99.100:8443',
-               namespace: 'http4s'
-           ]) {
+        withKubeConfig([
+            credentialsId: 'minikube-crt',
+            serverUrl: 'https://192.168.99.100:8443',
+            namespace: 'http4s'
+        ]) {
 
-             sh "mortar fire k8s/bb-deployment.yml bb"
-           }
-         }
-
-
-
+          sh "mortar fire k8s/bb-deployment.yml bb"
+        }
       }
     }
-
-
   }
 }
