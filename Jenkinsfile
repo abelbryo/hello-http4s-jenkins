@@ -92,13 +92,7 @@ pipeline {
 
       steps {
 
-        withKubeConfig([
-            credentialsId: 'minikube-crt',
-            serverUrl: 'https://192.168.99.100:8443',
-            namespace: 'http4s'
-        ]) {
           sh 'mortar list'
-        }
       }
     }
   }
