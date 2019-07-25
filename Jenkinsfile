@@ -96,9 +96,12 @@ pipeline {
 
       steps {
         script {
-          docker.image('quay.io/kontena/mortar:latest').withRun('-it --entrypoint=/bin/sh') {
-            sh "whoami"
-          }
+
+          sh "whoami"
+
+        //  docker.image('quay.io/kontena/mortar:latest').withRun('-it --entrypoint=/bin/sh') {
+        //    sh "whoami"
+        //  }
         }
       }
     }
