@@ -80,10 +80,23 @@ pipeline {
             namespace: 'http4s'
         ]) {
           sh "chmod +x run.sh"
-          sh "./run.sh ${registryKey}:${imageTag}"
+            sh "./run.sh ${registryKey}:${imageTag}"
         }
       }
     }
+
+    stage('Mortar fire') {
+
+      steps {
+
+        script {
+          docker.image('quay.io/kontena/mortar:latest').inside {
+            sh "mortar --help"
+          }
+        }
+      }
+    }
+
 
   }
 }
