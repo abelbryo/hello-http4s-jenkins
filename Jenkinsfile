@@ -87,14 +87,11 @@ pipeline {
 
     stage('Mortar fire') {
 
-      steps {
-
         agent {
-          docker {
-            image 'quay.io/kontena/mortar:latest'
-          }
+          docker { image 'quay.io/kontena/mortar:latest' }
         }
 
+      steps {
         script {
           docker.image('quay.io/kontena/mortar:latest').withRun('-it --entrypoint=/bin/sh') {
             sh "whoami"
