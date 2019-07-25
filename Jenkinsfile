@@ -91,7 +91,7 @@ pipeline {
 
         script {
           docker.image('quay.io/kontena/mortar:latest').withRun('--entrypoint=/bin/sh') {
-            sh "mortar --help"
+            sh "whoami"
           }
         }
       }
