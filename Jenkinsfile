@@ -88,7 +88,10 @@ pipeline {
     stage('Mortar fire') {
 
         agent {
-          docker { image 'quay.io/kontena/mortar:latest' }
+          docker {
+            image 'quay.io/kontena/mortar:latest'
+            args '--entrypoint=\'\''
+          }
         }
 
       steps {
