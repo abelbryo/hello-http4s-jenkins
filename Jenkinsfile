@@ -89,6 +89,12 @@ pipeline {
 
       steps {
 
+        agent {
+          docker {
+            image 'quay.io/kontena/mortar:latest'
+          }
+        }
+
         script {
           docker.image('quay.io/kontena/mortar:latest').withRun('-it --entrypoint=/bin/sh') {
             sh "whoami"
