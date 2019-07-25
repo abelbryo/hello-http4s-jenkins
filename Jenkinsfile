@@ -33,11 +33,11 @@ pipeline {
       }
     }
 
-    stage('sbt docker:stage') {
-      steps {
-        sh "sbt docker:stage"
-      }
-    }
+    // stage('sbt docker:stage') {
+    //   steps {
+    //     sh "sbt docker:stage"
+    //   }
+    // }
 
     // stage('Build image') {
     //   /* This builds the actual image; synonymous to
@@ -90,7 +90,7 @@ pipeline {
       steps {
 
         script {
-          docker.image('quay.io/kontena/mortar:latest').withRun('--entrypoint=/bin/sh') {
+          docker.image('quay.io/kontena/mortar:latest').withRun('-it --entrypoint=/bin/sh') {
             sh "whoami"
           }
         }
