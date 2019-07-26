@@ -101,7 +101,7 @@ pipeline {
             namespace: 'http4s'
         ]) {
 
-          sh "mortar fire k8s/bb-deployment.yml bb"
+          sh "mortar fire k8s/mortar/bb-deployment.yml bb"
         }
 
       }
