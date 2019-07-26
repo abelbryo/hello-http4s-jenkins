@@ -5,7 +5,8 @@ LOCATION=./k8s/mortar
 
 # Usage
 # Typically from jenkins
-# ./update-version.sh aterefe/http4s:HEAD-22e144d
+# ./mortar-run.sh [IMAGE:TAG]
+# ./mortar-run.sh aterefe/http4s:HEAD-22e144d
 
 IMAGE=$1
 if [ -z "$IMAGE" ]; then
