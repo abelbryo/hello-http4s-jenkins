@@ -31,6 +31,7 @@ object HttpsjenkinsRoutes {
 
       case GET -> Root / "goodbye" => Ok("Good bye! :(")
       case GET -> Root / "foo" => Ok("Hello Foo!")
+      case GET -> Root / "news" => Ok("News :)")
 
     }
   }
