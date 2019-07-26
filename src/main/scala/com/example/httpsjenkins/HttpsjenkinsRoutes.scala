@@ -4,6 +4,8 @@ import cats.effect.Sync
 import cats.implicits._
 import org.http4s.HttpRoutes
 import org.http4s.dsl.Http4sDsl
+import io.circe.syntax._
+
 
 object HttpsjenkinsRoutes {
 
@@ -19,19 +21,17 @@ object HttpsjenkinsRoutes {
     }
   }
 
-  def helloWorldRoutes[F[_]: Sync](H: HelloWorld[F]): HttpRoutes[F] = {
+  def helloWorldRoutes[F[_]: Sync](H: GreetingService[F]): HttpRoutes[F] = {
     val dsl = new Http4sDsl[F]{}
     import dsl._
     HttpRoutes.of[F] {
-      case GET -> Root / "hello" / name =>
+      case GET -> Root / "greet" / name =>
         for {
-          greeting <- H.hello(HelloWorld.Name(name))
+          greeting <- H.greet(GreetingService.Name(name))
           resp <- Ok(greeting)
         } yield resp
 
-      case GET -> Root / "goodbye" => Ok("Good bye! :(")
-      case GET -> Root / "foo" => Ok("Hello Foo!")
-      case GET -> Root / "news" => Ok("News :)")
+      case GET -> Root / "goodbye" => Ok("Goodbye")
 
     }
   }

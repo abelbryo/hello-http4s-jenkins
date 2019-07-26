@@ -14,7 +14,7 @@ object HttpsjenkinsServer {
   def stream[F[_]: ConcurrentEffect](implicit T: Timer[F], C: ContextShift[F]): Stream[F, Nothing] = {
     for {
       client <- BlazeClientBuilder[F](global).stream
-      helloWorldAlg = HelloWorld.impl[F]
+      helloWorldAlg = GreetingService.impl[F]
       jokeAlg = Jokes.impl[F](client)
 
       // Combine Service Routes into an HttpApp.
