@@ -87,12 +87,12 @@ pipeline {
 
     stage('Mortar fire') {
 
-     // agent {
-     //   docker {
-     //     image 'quay.io/kontena/mortar:latest'
-     //       args '--entrypoint=\'\''
-     //   }
-     // }
+      // agent {
+      //   docker {
+      //     image 'quay.io/kontena/mortar:latest'
+      //       args '--entrypoint=\'\''
+      //   }
+      // }
 
       steps {
 
@@ -103,9 +103,12 @@ pipeline {
               namespace: 'http4s'
           ]) {
 
-            docker.image('quay.io/kontena/mortar:latest').withRun('--entrypoint=\'\'') { test ->
+            docker.image('quay.io/kontena/mortar:latest').withRun('--entrypoint=\'\'') { c ->
 
-              sh "mortar fire k8s/bb-deployment.yml bb"
+              docker.image('quay.io/kontena/mortar:latest').inside("--link ${c.id}:db") {
+                /* Wait until mysql service is up */
+                sh "mortar fire k8s/bb-deployment.yml bb"
+              }
 
             }
           }
