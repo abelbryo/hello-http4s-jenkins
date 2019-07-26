@@ -87,32 +87,23 @@ pipeline {
 
     stage('Mortar fire') {
 
-      // agent {
-      //   docker {
-      //     image 'quay.io/kontena/mortar:latest'
-      //       args '--entrypoint=\'\''
-      //   }
-      // }
+      agent {
+        docker {
+          image 'aterefe/mortar-kubectl:latest'
+            args '--entrypoint=\'\''
+        }
+      }
 
       steps {
+        withKubeConfig([
+            credentialsId: 'minikube-crt',
+            serverUrl: 'https://192.168.99.100:8443',
+            namespace: 'http4s'
+        ]) {
 
-        script {
-          withKubeConfig([
-              credentialsId: 'minikube-crt',
-              serverUrl: 'https://192.168.99.100:8443',
-              namespace: 'http4s'
-          ]) {
-
-            docker.image('quay.io/kontena/mortar:latest').withRun("") { c ->
-
-              docker.image('quay.io/kontena/mortar:latest').inside {
-                /* Wait until mysql service is up */
-                sh "mortar fire k8s/bb-deployment.yml bb"
-              }
-
-            }
-          }
+          sh "mortar fire k8s/bb-deployment.yml bb"
         }
+
       }
     }
   }
