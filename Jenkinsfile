@@ -103,7 +103,7 @@ pipeline {
               namespace: 'http4s'
           ]) {
 
-            docker.image('quay.io/kontena/mortar:latest').withRun('--entrypoint=\'\'') {
+            docker.image('quay.io/kontena/mortar:latest').withRun('--entrypoint=\'\'') { test ->
 
               sh "mortar fire k8s/bb-deployment.yml bb"
 
