@@ -105,7 +105,7 @@ pipeline {
 
             docker.image('quay.io/kontena/mortar:latest').withRun("") { c ->
 
-              docker.image('quay.io/kontena/mortar:latest').inside("--link ${c.id}:db") {
+              docker.image('quay.io/kontena/mortar:latest').inside {
                 /* Wait until mysql service is up */
                 sh "mortar fire k8s/bb-deployment.yml bb"
               }
