@@ -103,7 +103,7 @@ pipeline {
               namespace: 'http4s'
           ]) {
 
-            docker.image('quay.io/kontena/mortar:latest').withRun('--entrypoint=\'\'') { c ->
+            docker.image('quay.io/kontena/mortar:latest').withRun('--entrypoint=\'\' /bin/sh') { c ->
 
               docker.image('quay.io/kontena/mortar:latest').inside("--link ${c.id}:db") {
                 /* Wait until mysql service is up */
