@@ -72,18 +72,18 @@ pipeline {
        }
 
 
-       stage('Deploy') {
-         steps {
-           withKubeConfig([
-               credentialsId: 'minikube-crt',
-               serverUrl: 'https://192.168.99.100:8443',
-               namespace: 'http4s'
-           ]) {
-             sh "chmod +x run.sh"
-               sh "./run.sh ${registryKey}:${imageTag}"
-           }
-         }
-       }
+//     stage('Deploy') {
+//       steps {
+//         withKubeConfig([
+//             credentialsId: 'minikube-crt',
+//             serverUrl: 'https://192.168.99.100:8443',
+//             namespace: 'http4s'
+//         ]) {
+//           sh "chmod +x run.sh"
+//             sh "./run.sh ${registryKey}:${imageTag}"
+//         }
+//       }
+//     }
 
     stage('Mortar fire') {
 
@@ -100,8 +100,8 @@ pipeline {
             serverUrl: 'https://192.168.99.100:8443',
             namespace: 'http4s'
         ]) {
-
-          sh "mortar fire k8s/mortar/bb-deployment.yml bb"
+             sh "chmod +x mortar-run.sh"
+             sh "./mortar-run.sh ${registryKey}:${imageTag}"
         }
 
       }

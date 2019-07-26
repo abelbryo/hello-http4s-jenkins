@@ -1,0 +1,22 @@
+% image=var.image
+% namespace=var.namespace
+% servicename=var.servicename
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: <%= servicename %>
+  namespace: <%= namespace %>
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: <%= servicename %>
+    spec:
+      containers:
+      - name: http4s
+        image: <%= image %>
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9000

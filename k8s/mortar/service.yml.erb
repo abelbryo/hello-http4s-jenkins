@@ -1,0 +1,17 @@
+% servicename=var.servicename
+% namespace=var.namespace
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: <%= servicename %>
+  namespace: <%= namespace %>
+spec:
+  selector:
+    app: <%= servicename %>
+  type: LoadBalancer
+  externalTrafficPolicy: Cluster
+  ports:
+  - port: 9000
+    targetPort: 9000
+    nodePort: 31240

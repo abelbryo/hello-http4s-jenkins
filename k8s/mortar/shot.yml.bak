@@ -1,0 +1,4 @@
+variables:
+  servicename: http4s
+  namespace: http4s
+  image: aterefe/http4s:HEAD-22e144d
