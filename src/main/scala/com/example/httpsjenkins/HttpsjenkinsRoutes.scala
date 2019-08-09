@@ -13,11 +13,11 @@ object HttpsjenkinsRoutes {
     val dsl = new Http4sDsl[F]{}
     import dsl._
     HttpRoutes.of[F] {
-      case GET -> Root / "joke" =>
-        for {
-          joke <- J.get
-          resp <- Ok(joke)
-        } yield resp
+      case GET -> Root / "joke" => Ok("Knock knock! who's there?")
+        // for {
+        //   joke <- J.get
+        //   resp <- Ok(joke)
+        // } yield resp
     }
   }
 
