@@ -11,11 +11,14 @@ import scala.concurrent.ExecutionContext.global
 
 object HttpsjenkinsServer {
 
-  def stream[F[_]: ConcurrentEffect](implicit T: Timer[F], C: ContextShift[F]): Stream[F, Nothing] = {
+  def stream[F[_]: ConcurrentEffect](
+      implicit T: Timer[F],
+      C: ContextShift[F]
+  ): Stream[F, Nothing] = {
     for {
-      client <- BlazeClientBuilder[F](global).stream
+      client        <- BlazeClientBuilder[F](global).stream
       helloWorldAlg = GreetingService.impl[F]
-      jokeAlg = Jokes.impl[F](client)
+      jokeAlg       = Jokes.impl[F](client)
 
       // Combine Service Routes into an HttpApp.
       // Can also be done via a Router if you
@@ -23,16 +26,16 @@ object HttpsjenkinsServer {
       // in the underlying routes.
       httpApp = (
         HttpsjenkinsRoutes.helloWorldRoutes[F](helloWorldAlg) <+>
-        HttpsjenkinsRoutes.jokeRoutes[F](jokeAlg)
+          HttpsjenkinsRoutes.jokeRoutes[F](jokeAlg)
       ).orNotFound
 
       // With Middlewares in place
       finalHttpApp = Logger.httpApp(true, true)(httpApp)
 
       exitCode <- BlazeServerBuilder[F]
-        .bindHttp(9000, "0.0.0.0")
-        .withHttpApp(finalHttpApp)
-        .serve
+                   .bindHttp(9000, "0.0.0.0")
+                   .withHttpApp(finalHttpApp)
+                   .serve
     } yield exitCode
   }.drain
 }
